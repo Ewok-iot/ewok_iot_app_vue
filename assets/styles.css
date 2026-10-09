@@ -260,12 +260,6 @@ p { margin: 0; }
 @media (max-width: 480px) { .facts div { grid-template-columns: 1fr; gap: 4px; } }
 
 /* Contatti e footer */
-.contact { background: var(--forest); color: var(--paper); }
-.contact__inner { padding-block: 72px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
-.contact__inner > div:first-child { display: grid; gap: 12px; max-width: 620px; }
-.contact p { color: var(--muted-dark); font-size: 1.05rem; }
-.contact__mail { display: grid; gap: 10px; justify-items: start; }
-.contact__mail .mono { color: var(--muted-dark); user-select: all; }
 .footer { background: var(--ink); color: var(--muted-dark); font-size: .88rem; }
 .footer__inner { padding-block: 28px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
 
