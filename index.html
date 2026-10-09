@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ewok · Rete di monitoraggio ambientale</title>
+  <meta name="description" content="Ewok è una rete di stazioni ambientali autonome: misurano qualità dell'aria e meteo in tempo reale, anche a energia solare, e si gestiscono da remoto.">
+  <meta name="theme-color" content="#0b1220">
+  <meta property="og:title" content="Ewok · Rete di monitoraggio ambientale">
+  <meta property="og:description" content="Stazioni IoT autonome per misurare aria e clima, gestite da una console centrale.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://a.basemaps.cartocdn.com" crossorigin>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a href="#top" class="brand" aria-label="Ewok, torna all'inizio">
+        <img src="assets/favicon.svg" alt="" width="28" height="28"> Ewok
+      </a>
+      <nav class="nav" aria-label="Sezioni">
+        <a href="#cosa">Cosa facciamo</a>
+        <a href="#come">Come funziona</a>
+        <a href="#mappa">Mappa</a>
+        <a href="#progetto">Stato</a>
+        <a href="#chi">Chi siamo</a>
+      </nav>
+      <a href="#contatti" class="btn btn--small">Contattaci</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero__grid">
+        <div>
+          <p class="eyebrow">Monitoraggio ambientale IoT</p>
+          <h1>Sappiamo com'è l'aria,<br><span class="accent">dove serve, in tempo reale.</span></h1>
+          <p class="lead">
+            Ewok è una rete di stazioni ambientali autonome. Ogni unit misura polveri sottili, gas, temperatura,
+            umidità e pressione, invia i dati a una centrale e si configura interamente da remoto.
+            Anche dove non arriva la corrente: le unit funzionano a energia solare.
+          </p>
+          <div class="hero__cta">
+            <a href="#mappa" class="btn">Guarda le unit sulla mappa</a>
+            <a href="#come" class="btn btn--ghost">Come funziona</a>
+          </div>
+        </div>
+        <ul class="kpis" aria-label="In sintesi">
+          <li><strong data-kpi="active">–</strong><span>unit attive</span></li>
+          <li><strong>15+</strong><span>grandezze misurabili</span></li>
+          <li><strong>1</strong><span>firmware per tutte le unit</span></li>
+          <li><strong>24/7</strong><span>dati verso la centrale</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- COSA FACCIAMO -->
+    <section id="cosa" class="section">
+      <div class="wrap">
+        <p class="eyebrow">Cosa facciamo</p>
+        <h2>Una rete di sensori pronta da installare, ovunque</h2>
+        <div class="cards">
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">🌫️</div>
+            <h3>Qualità dell'aria</h3>
+            <p>Particolato PM1, PM2.5, PM4 e PM10, indici VOC e NOx, CO₂ e ozono con sensori professionali (Sensirion, Bosch).</p>
+          </article>
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">🌡️</div>
+            <h3>Meteo e microclima</h3>
+            <p>Temperatura, umidità, pressione, luminosità e indice UV, per capire il contesto delle misure.</p>
+          </article>
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">☀️</div>
+            <h3>Autonome e solari</h3>
+            <p>Unit esterne con pannello solare e batteria, progettate per consumi minimi: nessun cavo di alimentazione.</p>
+          </article>
+          <article class="card">
+            <div class="card__icon" aria-hidden="true">🛰️</div>
+            <h3>Gestite da remoto</h3>
+            <p>Identità, sensori e intervallo di misura si decidono dalla centrale. Sul posto basta accendere e collegare il Wi-Fi dal telefono.</p>
+          </article>
+        </div>
+
+        <h3 class="sub">Per chi è</h3>
+        <ul class="chips">
+          <li>Comuni ed enti locali</li>
+          <li>Scuole e uffici</li>
+          <li>Aziende e stabilimenti</li>
+          <li>Rifugi e località turistiche</li>
+          <li>Agricoltura</li>
+          <li>Ricerca e citizen science</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- COME FUNZIONA -->
+    <section id="come" class="section section--alt">
+      <div class="wrap">
+        <p class="eyebrow">Come funziona</p>
+        <h2>Dal sensore alla centrale in quattro passi</h2>
+        <ol class="flow">
+          <li>
+            <span class="flow__n">1</span>
+            <h3>La unit misura</h3>
+            <p>Una scheda ESP32-S3 legge fino a 5 sensori e invia una lettura a intervalli regolari, più un segnale "sono viva" con lo stato della scheda.</p>
+          </li>
+          <li>
+            <span class="flow__n">2</span>
+            <h3>I dati viaggiano</h3>
+            <p>Via Wi-Fi (connettività cellulare in sperimentazione) con il protocollo MQTT, leggero e affidabile anche con reti instabili.</p>
+          </li>
+          <li>
+            <span class="flow__n">3</span>
+            <h3>Vengono salvati</h3>
+            <p>Un gateway archivia ogni misura in un database: lo storico si conserva nel tempo, pronto per analisi e report.</p>
+          </li>
+          <li>
+            <span class="flow__n">4</span>
+            <h3>Si controlla tutto</h3>
+            <p>Dalla console centrale si vedono le unit sulla mappa, i grafici delle ultime 24 ore, gli allarmi, e si inviano comandi e configurazioni.</p>
+          </li>
+        </ol>
+
+        <div class="split">
+          <div>
+            <h3>Installazione semplice</h3>
+            <ul class="ticks">
+              <li>Un solo firmware per tutte le unit: si installa in laboratorio, uguale per tutte.</li>
+              <li>Al primo avvio la unit apre una sua rete <em>EWOKConfig</em>: dal telefono si inseriscono Wi-Fi e server, senza PC.</li>
+              <li>La unit si annuncia alla centrale, che le assegna nome, sensori e pin in un clic.</li>
+              <li>Ogni configurazione viene controllata prima dell'invio: niente errori di cablaggio.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Affidabilità</h3>
+            <ul class="ticks">
+              <li>Ogni unit è riconosciuta da un identificativo hardware univoco.</li>
+              <li>Se una unit perde rete o corrente, la centrale lo sa subito e lo segnala.</li>
+              <li>Comandi e conferme arrivano anche dopo una disconnessione temporanea.</li>
+              <li>Diagnostica remota: segnale Wi-Fi, memoria, riavvii, sensori in errore.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAPPA -->
+    <section id="mappa" class="section">
+      <div class="wrap">
+        <p class="eyebrow">La rete oggi</p>
+        <h2>Mappa delle unit</h2>
+        <p class="muted">Tocca un punto per vedere i dettagli della unit.</p>
+        <div class="map-wrap">
+          <div id="map" role="region" aria-label="Mappa delle unit Ewok">
+            <p class="map-placeholder">Caricamento mappa…</p>
+          </div>
+          <aside class="legend" aria-label="Legenda">
+            <span><i class="dot dot--active"></i>Attiva</span>
+            <span><i class="dot dot--testing"></i>In test</span>
+            <span><i class="dot dot--planned"></i>In arrivo</span>
+            <span><i class="dot dot--offline"></i>Non raggiungibile</span>
+          </aside>
+        </div>
+        <ul id="unit-list" class="unit-list" aria-label="Elenco unit"></ul>
+      </div>
+    </section>
+
+    <!-- STATO DEL PROGETTO -->
+    <section id="progetto" class="section section--alt">
+      <div class="wrap">
+        <p class="eyebrow">Cosa stiamo realizzando</p>
+        <h2>Stato del progetto</h2>
+        <ol class="timeline">
+          <li class="done">
+            <h3>Console di controllo centrale</h3>
+            <p>Gestione delle unit, mappa, grafici delle ultime 24 ore, comandi, eventi e utenti. Più operatori possono lavorare insieme.</p>
+          </li>
+          <li class="done">
+            <h3>Firmware unico configurabile da remoto</h3>
+            <p>Una sola versione per tutte le schede: la configurazione completa arriva dalla centrale. Driver pronti per BME280, BMP280, BMP180, BME680, DHT22 e SEN65.</p>
+          </li>
+          <li class="done">
+            <h3>Pannello di stato da tavolo</h3>
+            <p>Un piccolo display mostra a colpo d'occhio quali unit sono attive e l'ultima temperatura rilevata.</p>
+          </li>
+          <li class="now">
+            <h3>Configurazione Wi-Fi dal telefono</h3>
+            <p>Implementata, in prova sulle schede reali.</p>
+          </li>
+          <li class="now">
+            <h3>Nuovi sensori</h3>
+            <p>Estensione dei driver a CO₂, ozono, luce, UV e altri modelli di particolato.</p>
+          </li>
+          <li class="next">
+            <h3>Unit solare dedicata</h3>
+            <p>Scheda elettronica progettata da zero per l'esterno: pannello solare, batteria al litio, sensore SEN65 sempre attivo e microcontrollore in sospensione tra una misura e l'altra.</p>
+          </li>
+          <li class="next">
+            <h3>Connettività cellulare</h3>
+            <p>Modulo GSM per installare le unit anche dove non c'è Wi-Fi.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- CHI SIAMO -->
+    <section id="chi" class="section">
+      <div class="wrap">
+        <p class="eyebrow">Chi siamo</p>
+        <h2>Il team</h2>
+        <div class="team">
+          <article class="person">
+            <div class="avatar" aria-hidden="true">ME</div>
+            <div>
+              <h3>Manuel Enzo</h3>
+              <p class="role"><!-- TODO: ruolo -->Software, firmware e piattaforma</p>
+              <p><!-- TODO: breve bio -->Sviluppa la console di controllo, il firmware delle unit e l'infrastruttura dati.</p>
+            </div>
+          </article>
+          <article class="person">
+            <div class="avatar" aria-hidden="true">EW</div>
+            <div>
+              <h3>EwNeedle</h3>
+              <p class="role"><!-- TODO: ruolo -->Ruolo da indicare</p>
+              <p><!-- TODO: breve bio -->Breve descrizione da completare.</p>
+            </div>
+          </article>
+        </div>
+        <p class="mission">
+          Crediamo che i dati ambientali debbano essere <strong>locali, continui e accessibili</strong>:
+          per questo costruiamo hardware e software interamente nostri, dal sensore alla centrale.
+        </p>
+      </div>
+    </section>
+
+    <!-- CONTATTI -->
+    <section id="contatti" class="section section--cta">
+      <div class="wrap cta">
+        <div>
+          <h2>Vuoi una unit Ewok nel tuo territorio?</h2>
+          <p>Raccontaci cosa vuoi misurare e dove: ti proponiamo la configurazione più adatta.</p>
+        </div>
+        <!-- TODO: sostituire con l'indirizzo email reale -->
+        <a class="btn btn--light" href="mailto:info@example.com?subject=Informazioni%20Ewok">Scrivici</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <span>© <span id="year">2026</span> Ewok</span>
+      <span class="muted">Mappa © OpenStreetMap contributors</span>
+    </div>
+  </footer>
+
+  <script src="assets/app.js" defer></script>
+</body>
+</html>
