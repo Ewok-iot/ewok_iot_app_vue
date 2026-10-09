@@ -6,9 +6,9 @@ const AREAS_URL = 'data/areas.json';
 const LEAFLET_BASE = 'assets/vendor/leaflet/';
 
 const STATUS = {
-  active:  { label: 'Operativa', color: '#9fd68a' },
-  testing: { label: 'In prova',  color: '#e2b44b' },
-  planned: { label: 'In arrivo', color: '#b3a1ff' },
+  active:  { label: 'Operativa', color: '#b4c98e' },
+  testing: { label: 'In prova',  color: '#d9a441' },
+  planned: { label: 'In arrivo', color: '#b9a8ff' },
 };
 
 document.getElementById('year').textContent = new Date().getFullYear();
@@ -44,7 +44,7 @@ function drawContours () {
         const py = cy + Math.sin(a) * base * wob * 0.85;
         a === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
       }
-      ctx.strokeStyle = k % 5 === 0 ? 'rgba(159,214,138,.55)' : 'rgba(159,214,138,.22)';
+      ctx.strokeStyle = k % 5 === 0 ? 'rgba(63,92,53,.45)' : 'rgba(63,92,53,.18)';
       ctx.stroke();
     }
   });
