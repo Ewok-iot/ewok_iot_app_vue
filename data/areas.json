@@ -8,9 +8,8 @@
       "lat": 45.49,
       "lng": 12.24,
       "radiusKm": 6,
-      "units": 2,
-      "status": "active",
-      "note": "Misure in esterno e in interno"
+      "units": 1,
+      "status": "active"
     },
     {
       "name": "Jesolo",
@@ -28,8 +27,16 @@
       "lng": 12.29,
       "radiusKm": 5,
       "units": 1,
-      "status": "active",
-      "note": "Misure in esterno"
+      "status": "active"
+    },
+    {
+      "name": "Belluno",
+      "region": "Belluno",
+      "lat": 46.14,
+      "lng": 12.22,
+      "radiusKm": 6,
+      "units": 1,
+      "status": "active"
     }
   ]
 }
