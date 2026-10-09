@@ -1,21 +1,21 @@
 # Ewok · sito di presentazione
 
-Pagina statica (HTML, CSS e JS, senza build) che presenta Ewok ai possibili clienti, con la mappa delle unit.
+Pagina statica (HTML, CSS e JS, senza build) che presenta Ewok ai possibili clienti, con la mappa delle aree servite.
 
 - `index.html`: contenuti della pagina
 - `assets/styles.css`, `assets/app.js`: stile e logica (la mappa Leaflet si carica solo quando si arriva alla sezione)
 - `assets/vendor/leaflet/`: Leaflet 1.9.4 incluso nel sito
-- `data/units.json`: **le unit mostrate sulla mappa** (posizione, stato, sensori)
+- `data/areas.json`: **le aree mostrate sulla mappa** (mai la posizione precisa delle stazioni)
 
 ## Aggiornare la mappa
 
-Modificare `data/units.json`. Campi: `id`, `name`, `place`, `lat`, `lng`, `status` (`active`, `testing`, `planned`),
-`power`, `sensors`, `lastSeen` (ISO 8601, opzionale: una unit `active` senza segni di vita da più di 10 minuti appare
-come non raggiungibile, come in LCARS).
+Modificare `data/areas.json`. Campi: `name` (es. provincia o vallata), `region`, `lat`/`lng` (centro indicativo
+dell'area, 1-2 decimali), `radiusKm`, `units` (numero di stazioni), `status` (`active`, `testing`, `planned`), `note`.
+La mappa non permette di zoomare oltre il livello di dettaglio di un'area.
 
 ## Da completare
 
-Cercare `TODO` in `index.html`: ruolo e bio del team, email di contatto. Le unit in `data/units.json` sono esempi.
+Cercare `TODO` in `index.html`: ruolo e bio del team, email di contatto. Verificare le aree in `data/areas.json`.
 
 ## Provare in locale e pubblicare
 

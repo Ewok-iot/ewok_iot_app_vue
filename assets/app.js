@@ -1,132 +1,167 @@
 // Ewok - pagina di presentazione.
-// La mappa (Leaflet) viene caricata solo quando la sezione sta per entrare nello schermo,
-// così il primo caricamento della pagina resta leggero.
+// La mappa (Leaflet) si carica solo quando la sezione sta per entrare nello schermo.
+// La mappa mostra aree geografiche, mai la posizione precisa delle stazioni.
 
-const UNITS_URL = 'data/units.json';
-// Una unit "active" è considerata raggiungibile se ha dato segni di vita negli ultimi 10 minuti
-// (stessa regola della console LCARS). Se lastSeen manca, vale lo stato dichiarato.
-const ACTIVE_WINDOW_MS = 10 * 60 * 1000;
+const AREAS_URL = 'data/areas.json';
+const LEAFLET_BASE = 'assets/vendor/leaflet/';
 
 const STATUS = {
-  active:  { label: 'Attiva',            color: '#4ade80' },
-  testing: { label: 'In test',           color: '#ff9c33' },
-  planned: { label: 'In arrivo',         color: '#7aa7ff' },
-  offline: { label: 'Non raggiungibile', color: '#f87171' },
+  active:  { label: 'Operativa', color: '#9fd68a' },
+  testing: { label: 'In prova',  color: '#e2b44b' },
+  planned: { label: 'In arrivo', color: '#b3a1ff' },
 };
 
 document.getElementById('year').textContent = new Date().getFullYear();
 
-const unitsPromise = fetch(UNITS_URL, { cache: 'no-cache' })
-  .then(r => (r.ok ? r.json() : { units: [] }))
-  .then(d => (Array.isArray(d.units) ? d.units : []).filter(u => Number.isFinite(u.lat) && Number.isFinite(u.lng)))
-  .catch(() => []);
+/* ---------- Curve di livello nell'hero ---------- */
+function drawContours () {
+  const canvas = document.querySelector('.hero__contours');
+  if (!canvas) return;
+  const rect = canvas.getBoundingClientRect();
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, rect.width, rect.height);
 
-function effectiveStatus (u) {
-  if (u.status === 'active' && u.lastSeen) {
-    const seen = Date.parse(u.lastSeen);
-    if (Number.isFinite(seen) && Date.now() - seen > ACTIVE_WINDOW_MS) return 'offline';
-  }
-  return STATUS[u.status] ? u.status : 'planned';
+  // Rilievi: somma di colline gaussiane, disegnate come anelli concentrici deformati
+  const hills = [
+    { x: .78, y: .38, r: .34 },
+    { x: .95, y: .85, r: .26 },
+    { x: .55, y: 1.05, r: .22 },
+  ];
+  const W = rect.width, H = rect.height, S = Math.max(W, H);
+  ctx.lineWidth = 1;
+  hills.forEach((h, hi) => {
+    const cx = h.x * W, cy = h.y * H;
+    for (let k = 1; k <= 14; k++) {
+      const base = (k / 14) * h.r * S;
+      ctx.beginPath();
+      for (let a = 0; a <= Math.PI * 2 + 0.01; a += Math.PI / 90) {
+        const wob = 1 + 0.09 * Math.sin(3 * a + hi + k * 0.35) + 0.05 * Math.sin(5 * a - k * 0.5 + hi * 2);
+        const px = cx + Math.cos(a) * base * wob * 1.25;
+        const py = cy + Math.sin(a) * base * wob * 0.85;
+        a === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+      }
+      ctx.strokeStyle = k % 5 === 0 ? 'rgba(159,214,138,.55)' : 'rgba(159,214,138,.22)';
+      ctx.stroke();
+    }
+  });
 }
+drawContours();
+let resizeT;
+window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(drawContours, 150); });
+
+/* ---------- Filtro dei sensori ---------- */
+document.querySelectorAll('.filter .chip').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter .chip').forEach(b => b.classList.toggle('is-on', b === btn));
+    const f = btn.dataset.filter;
+    document.querySelectorAll('.sensors tbody tr').forEach(tr => {
+      tr.hidden = f !== 'all' && !tr.dataset.cat.split(' ').includes(f);
+    });
+  });
+});
+
+/* ---------- Aree e mappa ---------- */
+const areasPromise = fetch(AREAS_URL, { cache: 'no-cache' })
+  .then(r => (r.ok ? r.json() : { areas: [] }))
+  .then(d => (Array.isArray(d.areas) ? d.areas : []).filter(a => Number.isFinite(a.lat) && Number.isFinite(a.lng)))
+  .catch(() => []);
 
 function esc (s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 }
+const statusOf = a => (STATUS[a.status] ? a.status : 'planned');
+const unitsLabel = n => `${n} ${n === 1 ? 'stazione' : 'stazioni'}`;
 
-// KPI "unit attive" nell'hero
-unitsPromise.then(units => {
-  const el = document.querySelector('[data-kpi="active"]');
-  if (el) el.textContent = units.filter(u => effectiveStatus(u) === 'active').length;
+areasPromise.then(areas => {
+  const set = (k, v) => { const el = document.querySelector(`[data-stat="${k}"]`); if (el) el.textContent = v; };
+  set('areas', areas.length);
+  set('units', areas.reduce((s, a) => s + (Number(a.units) || 0), 0));
 });
 
 function loadLeaflet () {
-  const base = 'assets/vendor/leaflet/';
+  if (window.L) return Promise.resolve(window.L);
   const css = document.createElement('link');
   css.rel = 'stylesheet';
-  css.href = base + 'leaflet.css';
+  css.href = LEAFLET_BASE + 'leaflet.css';
   document.head.appendChild(css);
   return new Promise((resolve, reject) => {
     const s = document.createElement('script');
-    s.src = base + 'leaflet.js';
+    s.src = LEAFLET_BASE + 'leaflet.js';
     s.onload = () => resolve(window.L);
     s.onerror = reject;
     document.head.appendChild(s);
   });
 }
 
-function popupHtml (u, st) {
-  const sensors = Array.isArray(u.sensors) && u.sensors.length ? u.sensors.join(', ') : '–';
-  return `<h4>${esc(u.name || u.id)}</h4>
-    <p><strong style="color:${STATUS[st].color}">● ${STATUS[st].label}</strong></p>
-    ${u.place ? `<p>${esc(u.place)}</p>` : ''}
-    ${u.power ? `<p>Alimentazione: ${esc(u.power)}</p>` : ''}
-    <p>Sensori: ${esc(sensors)}</p>`;
+function addBaseLayer (L, map) {
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    maxZoom: 12,
+    subdomains: 'abcd',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+  }).addTo(map);
 }
 
 async function initMap () {
   const mapEl = document.getElementById('map');
   let L;
   try {
-    [L] = await Promise.all([loadLeaflet(), unitsPromise]);
+    L = await loadLeaflet();
   } catch {
-    mapEl.innerHTML = '<p class="map-placeholder">Impossibile caricare la mappa. Controlla la connessione.</p>';
+    mapEl.innerHTML = '<p class="map-msg">La mappa non si è caricata. Ricarica la pagina per riprovare.</p>';
     return;
   }
-  const units = await unitsPromise;
+  const areas = await areasPromise;
   mapEl.innerHTML = '';
 
-  const map = L.map(mapEl, { scrollWheelZoom: false, zoomControl: true }).setView([45.9, 12.3], 8);
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    maxZoom: 18,
-    subdomains: 'abcd',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-  }).addTo(map);
-  // Zoom con la rotellina solo dopo un clic sulla mappa, per non bloccare lo scroll della pagina
+  // Zoom massimo limitato: la mappa mostra aree, non punti precisi
+  const map = L.map(mapEl, { scrollWheelZoom: false, maxZoom: 10, minZoom: 5 }).setView([45.9, 12.2], 7);
+  addBaseLayer(L, map);
   map.on('click', () => map.scrollWheelZoom.enable());
   map.on('mouseout', () => map.scrollWheelZoom.disable());
 
-  const list = document.getElementById('unit-list');
-  const markers = [];
+  const list = document.getElementById('area-list');
+  const shapes = [];
 
-  units.forEach(u => {
-    const st = effectiveStatus(u);
-    const icon = L.divIcon({
-      className: '',
-      html: `<div class="unit-marker unit-marker--${st}" style="width:18px;height:18px;background:${STATUS[st].color}"></div>`,
-      iconSize: [18, 18],
-      iconAnchor: [9, 9],
-      popupAnchor: [0, -10],
-    });
-    const m = L.marker([u.lat, u.lng], { icon, title: u.name || u.id }).addTo(map).bindPopup(popupHtml(u, st));
-    markers.push(m);
+  areas.forEach(a => {
+    const st = statusOf(a);
+    const color = STATUS[st].color;
+    const units = Number(a.units) || 0;
+    const circle = L.circle([a.lat, a.lng], {
+      radius: (Number(a.radiusKm) || 15) * 1000,
+      color, weight: 1.5, fillColor: color, fillOpacity: 0.18,
+    }).addTo(map).bindPopup(
+      `<strong>${esc(a.name)}</strong><span>${esc(a.region || '')}${a.region ? ' · ' : ''}${unitsLabel(units)} · ${STATUS[st].label}</span>` +
+      (a.note ? `<br><span>${esc(a.note)}</span>` : ''),
+    );
+    shapes.push(circle);
 
     const li = document.createElement('li');
-    li.innerHTML = `<button type="button"><span style="color:${STATUS[st].color}">●</span> <strong>${esc(u.name || u.id)}</strong>
-      <small>${esc(STATUS[st].label)}${u.place ? ' · ' + esc(u.place) : ''}</small></button>`;
+    li.innerHTML = `<button type="button"><strong><i class="dot" style="background:${color}"></i>${esc(a.name)}</strong>
+      <small>${esc(a.region || '')}${a.region ? ' · ' : ''}${unitsLabel(units)} · ${STATUS[st].label}</small></button>`;
     li.querySelector('button').addEventListener('click', () => {
-      mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      map.flyTo([u.lat, u.lng], 13, { duration: 0.8 });
-      m.openPopup();
+      map.flyToBounds(circle.getBounds().pad(1.5), { duration: 0.8 });
+      circle.openPopup();
     });
     list.appendChild(li);
   });
 
-  if (markers.length) {
-    map.fitBounds(L.featureGroup(markers).getBounds().pad(0.3), { maxZoom: 12 });
+  if (shapes.length) {
+    map.fitBounds(L.featureGroup(shapes).getBounds().pad(1.2), { maxZoom: 8 });
   } else {
-    list.innerHTML = '<li class="muted">Le prime unit saranno visibili a breve.</li>';
+    list.innerHTML = '<li class="legend">Le prime aree saranno visibili a breve.</li>';
   }
 }
 
-const mapSection = document.getElementById('mappa');
+const netSection = document.getElementById('rete');
 if ('IntersectionObserver' in window) {
   const io = new IntersectionObserver(entries => {
-    if (entries.some(e => e.isIntersecting)) {
-      io.disconnect();
-      initMap();
-    }
+    if (entries.some(e => e.isIntersecting)) { io.disconnect(); initMap(); }
   }, { rootMargin: '400px' });
-  io.observe(mapSection);
+  io.observe(netSection);
 } else {
   initMap();
 }

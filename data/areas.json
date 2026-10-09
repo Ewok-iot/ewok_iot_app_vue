@@ -1,0 +1,15 @@
+{
+  "_nota": "Aree geografiche mostrate sulla mappa: niente posizioni precise delle unit. lat/lng = centro indicativo dell'area (bastano 1-2 decimali), radiusKm = raggio del cerchio. status: active | testing | planned.",
+  "areas": [
+    {
+      "name": "Provincia di Belluno",
+      "region": "Veneto",
+      "lat": 46.3,
+      "lng": 12.1,
+      "radiusKm": 18,
+      "units": 1,
+      "status": "testing",
+      "note": "Unità solare in prova in ambiente montano"
+    }
+  ]
+}

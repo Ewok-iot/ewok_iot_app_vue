@@ -2,249 +2,259 @@
 <html lang="it">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ewok · Rete di monitoraggio ambientale</title>
-  <meta name="description" content="Ewok è una rete di stazioni ambientali autonome: misurano qualità dell'aria e meteo in tempo reale, anche a energia solare, e si gestiscono da remoto.">
-  <meta name="theme-color" content="#0b1220">
-  <meta property="og:title" content="Ewok · Rete di monitoraggio ambientale">
-  <meta property="og:description" content="Stazioni IoT autonome per misurare aria e clima, gestite da una console centrale.">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ewok</title>
+  <meta name="description" content="Ewok realizza reti di stazioni per il monitoraggio ambientale: qualità dell'aria, gas e microclima misurati in continuo, anche a energia solare.">
+  <meta name="theme-color" content="#0e1511">
+  <meta property="og:title" content="Ewok · Monitoraggio ambientale">
+  <meta property="og:description" content="Reti di stazioni per misurare aria e microclima in continuo, anche dove non arriva la corrente.">
   <meta property="og:type" content="website">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://a.basemaps.cartocdn.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
   <link rel="stylesheet" href="assets/styles.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="wrap topbar__inner">
-      <a href="#top" class="brand" aria-label="Ewok, torna all'inizio">
-        <img src="assets/favicon.svg" alt="" width="28" height="28"> Ewok
+  <header class="nav">
+    <div class="wrap nav__inner">
+      <a href="#top" class="logo" aria-label="Ewok, torna all'inizio">
+        <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9 9 6 14 6 19a10 10 0 0 0 20 0c0-5-3-10-10-16Z" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M16 12v17M16 19l-5-4M16 23l5-4" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <span>ewok</span>
       </a>
-      <nav class="nav" aria-label="Sezioni">
-        <a href="#cosa">Cosa facciamo</a>
+      <nav class="nav__links" aria-label="Sezioni">
+        <a href="#misure">Cosa misuriamo</a>
+        <a href="#sensori">Sensori</a>
         <a href="#come">Come funziona</a>
-        <a href="#mappa">Mappa</a>
-        <a href="#progetto">Stato</a>
-        <a href="#chi">Chi siamo</a>
+        <a href="#rete">La rete</a>
+        <a href="#team">Chi siamo</a>
       </nav>
-      <a href="#contatti" class="btn btn--small">Contattaci</a>
+      <a href="#contatti" class="btn btn--sm">Contattaci</a>
     </div>
   </header>
 
   <main id="top">
     <!-- HERO -->
     <section class="hero">
-      <div class="wrap hero__grid">
-        <div>
-          <p class="eyebrow">Monitoraggio ambientale IoT</p>
-          <h1>Sappiamo com'è l'aria,<br><span class="accent">dove serve, in tempo reale.</span></h1>
-          <p class="lead">
-            Ewok è una rete di stazioni ambientali autonome. Ogni unit misura polveri sottili, gas, temperatura,
-            umidità e pressione, invia i dati a una centrale e si configura interamente da remoto.
-            Anche dove non arriva la corrente: le unit funzionano a energia solare.
-          </p>
-          <div class="hero__cta">
-            <a href="#mappa" class="btn">Guarda le unit sulla mappa</a>
-            <a href="#come" class="btn btn--ghost">Come funziona</a>
-          </div>
+      <canvas class="hero__contours" aria-hidden="true"></canvas>
+      <div class="wrap hero__inner">
+        <p class="kicker">Monitoraggio ambientale</p>
+        <h1>Dati sull'aria e sul clima, raccolti dove nessuno misura.</h1>
+        <p class="hero__lead">
+          Progettiamo e installiamo reti di stazioni che misurano in continuo polveri sottili, gas e microclima.
+          Le stazioni lavorano in autonomia, anche a energia solare, e inviano i dati a un'unica piattaforma.
+        </p>
+        <div class="hero__cta">
+          <a href="#contatti" class="btn">Richiedi una stazione</a>
+          <a href="#rete" class="btn btn--ghost">Vedi la rete</a>
         </div>
-        <ul class="kpis" aria-label="In sintesi">
-          <li><strong data-kpi="active">–</strong><span>unit attive</span></li>
-          <li><strong>15+</strong><span>grandezze misurabili</span></li>
-          <li><strong>1</strong><span>firmware per tutte le unit</span></li>
-          <li><strong>24/7</strong><span>dati verso la centrale</span></li>
-        </ul>
+        <dl class="hero__specs">
+          <div><dt>Particolato</dt><dd>PM1 · PM2.5 · PM4 · PM10</dd></div>
+          <div><dt>Gas</dt><dd>VOC · NOx · CO₂ · O₃</dd></div>
+          <div><dt>Microclima</dt><dd>°C · %UR · hPa · lux · UV</dd></div>
+          <div><dt>Alimentazione</dt><dd>Solare o rete</dd></div>
+        </dl>
       </div>
     </section>
 
-    <!-- COSA FACCIAMO -->
-    <section id="cosa" class="section">
+    <!-- COSA MISURIAMO -->
+    <section id="misure" class="section">
       <div class="wrap">
-        <p class="eyebrow">Cosa facciamo</p>
-        <h2>Una rete di sensori pronta da installare, ovunque</h2>
-        <div class="cards">
-          <article class="card">
-            <div class="card__icon" aria-hidden="true">🌫️</div>
-            <h3>Qualità dell'aria</h3>
-            <p>Particolato PM1, PM2.5, PM4 e PM10, indici VOC e NOx, CO₂ e ozono con sensori professionali (Sensirion, Bosch).</p>
+        <div class="head">
+          <p class="kicker kicker--dark">Cosa misuriamo</p>
+          <h2>Sedici grandezze, una sola stazione</h2>
+          <p class="head__lead">Ogni stazione monta fino a cinque sensori, scelti in base a cosa serve misurare in quel luogo.</p>
+        </div>
+        <div class="measures">
+          <article class="measure">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="8" r="1.6"/><circle cx="12" cy="5" r="1.1"/><circle cx="17" cy="9" r="2"/><circle cx="8" cy="15" r="2.2"/><circle cx="15" cy="16" r="1.3"/><circle cx="19" cy="20" r="1"/></svg>
+            <h3>Polveri sottili</h3>
+            <p>Concentrazione del particolato per dimensione, il dato chiave per la salute respiratoria.</p>
+            <ul class="tags"><li>PM1</li><li>PM2.5</li><li>PM4</li><li>PM10</li><li class="u">µg/m³</li></ul>
           </article>
-          <article class="card">
-            <div class="card__icon" aria-hidden="true">🌡️</div>
-            <h3>Meteo e microclima</h3>
-            <p>Temperatura, umidità, pressione, luminosità e indice UV, per capire il contesto delle misure.</p>
+          <article class="measure">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15c2-3 4-3 6 0s4 3 6 0 4-3 4-3M4 9c2-3 4-3 6 0s4 3 6 0 4-3 4-3"/></svg>
+            <h3>Gas e composti</h3>
+            <p>Composti organici volatili, ossidi di azoto, anidride carbonica e ozono.</p>
+            <ul class="tags"><li>VOC</li><li>NOx</li><li>CO₂</li><li>O₃</li><li>CO · NO₂ · NH₃</li><li class="u">indice · ppm</li></ul>
           </article>
-          <article class="card">
-            <div class="card__icon" aria-hidden="true">☀️</div>
-            <h3>Autonome e solari</h3>
-            <p>Unit esterne con pannello solare e batteria, progettate per consumi minimi: nessun cavo di alimentazione.</p>
+          <article class="measure">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14V5a2 2 0 1 1 4 0v9a4 4 0 1 1-4 0Z"/><path d="M12 11v6"/></svg>
+            <h3>Microclima</h3>
+            <p>Temperatura, umidità relativa e pressione atmosferica per leggere ogni dato nel suo contesto.</p>
+            <ul class="tags"><li>Temperatura</li><li>Umidità</li><li>Pressione</li><li class="u">°C · % · hPa</li></ul>
           </article>
-          <article class="card">
-            <div class="card__icon" aria-hidden="true">🛰️</div>
-            <h3>Gestite da remoto</h3>
-            <p>Identità, sensori e intervallo di misura si decidono dalla centrale. Sul posto basta accendere e collegare il Wi-Fi dal telefono.</p>
+          <article class="measure">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>
+            <h3>Luce e radiazione</h3>
+            <p>Illuminamento e indice UV, utili per esposizione, agricoltura e turismo.</p>
+            <ul class="tags"><li>Luminosità</li><li>Indice UV</li><li class="u">lux</li></ul>
           </article>
         </div>
+      </div>
+    </section>
 
-        <h3 class="sub">Per chi è</h3>
-        <ul class="chips">
-          <li>Comuni ed enti locali</li>
-          <li>Scuole e uffici</li>
-          <li>Aziende e stabilimenti</li>
-          <li>Rifugi e località turistiche</li>
-          <li>Agricoltura</li>
-          <li>Ricerca e citizen science</li>
-        </ul>
+    <!-- SENSORI -->
+    <section id="sensori" class="section section--tint">
+      <div class="wrap">
+        <div class="head">
+          <p class="kicker kicker--dark">Sensori</p>
+          <h2>Componenti dei migliori produttori</h2>
+          <p class="head__lead">Usiamo sensori di Sensirion, Bosch e altri produttori affermati. Il catalogo cresce con le esigenze dei progetti.</p>
+        </div>
+        <div class="filter" role="group" aria-label="Filtra i sensori">
+          <button type="button" class="chip is-on" data-filter="all">Tutti</button>
+          <button type="button" class="chip" data-filter="pm">Particolato</button>
+          <button type="button" class="chip" data-filter="gas">Gas</button>
+          <button type="button" class="chip" data-filter="co2">CO₂</button>
+          <button type="button" class="chip" data-filter="clima">Microclima</button>
+          <button type="button" class="chip" data-filter="luce">Luce</button>
+        </div>
+        <div class="table-wrap">
+          <table class="sensors">
+            <thead>
+              <tr><th scope="col">Sensore</th><th scope="col">Produttore</th><th scope="col">Cosa misura</th><th scope="col">Stato</th></tr>
+            </thead>
+            <tbody>
+              <tr data-cat="pm gas clima"><td class="mono">SEN65</td><td>Sensirion</td><td>PM1, PM2.5, PM4, PM10, VOC, NOx, temperatura, umidità</td><td><span class="pill pill--on">In uso</span></td></tr>
+              <tr data-cat="gas clima"><td class="mono">BME680</td><td>Bosch</td><td>Gas (VOC), temperatura, umidità, pressione</td><td><span class="pill pill--on">In uso</span></td></tr>
+              <tr data-cat="clima"><td class="mono">BME280</td><td>Bosch</td><td>Temperatura, umidità, pressione</td><td><span class="pill pill--on">In uso</span></td></tr>
+              <tr data-cat="clima"><td class="mono">BMP280</td><td>Bosch</td><td>Temperatura, pressione</td><td><span class="pill pill--on">In uso</span></td></tr>
+              <tr data-cat="clima"><td class="mono">BMP180</td><td>Bosch</td><td>Temperatura, pressione</td><td><span class="pill pill--on">In uso</span></td></tr>
+              <tr data-cat="clima"><td class="mono">DHT22</td><td>Aosong</td><td>Temperatura, umidità</td><td><span class="pill pill--on">In uso</span></td></tr>
+              <tr data-cat="clima"><td class="mono">SHT31</td><td>Sensirion</td><td>Temperatura, umidità ad alta precisione</td><td><span class="pill">In arrivo</span></td></tr>
+              <tr data-cat="pm"><td class="mono">PMS5003 · PMS7003</td><td>Plantower</td><td>PM1, PM2.5, PM10 (laser)</td><td><span class="pill">In arrivo</span></td></tr>
+              <tr data-cat="pm"><td class="mono">SDS011</td><td>Nova Fitness</td><td>PM2.5, PM10 (laser)</td><td><span class="pill">In arrivo</span></td></tr>
+              <tr data-cat="co2 clima"><td class="mono">SCD41</td><td>Sensirion</td><td>CO₂ (fotoacustico), temperatura, umidità</td><td><span class="pill">In arrivo</span></td></tr>
+              <tr data-cat="co2 clima"><td class="mono">SCD30</td><td>Sensirion</td><td>CO₂ (NDIR), temperatura, umidità</td><td><span class="pill">In arrivo</span></td></tr>
+              <tr data-cat="co2"><td class="mono">MH-Z19B</td><td>Winsen</td><td>CO₂ (NDIR)</td><td><span class="pill">In arrivo</span></td></tr>
+              <tr data-cat="gas co2"><td class="mono">SGP30</td><td>Sensirion</td><td>VOC, CO₂ equivalente</td><td><span class="pill">In arrivo</span></td></tr>
+              <tr data-cat="gas"><td class="mono">MiCS-6814</td><td>SGX Sensortech</td><td>CO, NO₂, NH₃</td><td><span class="pill">In arrivo</span></td></tr>
+              <tr data-cat="gas"><td class="mono">MQ131</td><td>Winsen</td><td>Ozono</td><td><span class="pill">In arrivo</span></td></tr>
+              <tr data-cat="luce"><td class="mono">BH1750</td><td>Rohm</td><td>Luminosità (lux)</td><td><span class="pill">In arrivo</span></td></tr>
+              <tr data-cat="luce"><td class="mono">UVM-30A</td><td>—</td><td>Indice UV</td><td><span class="pill">In arrivo</span></td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </section>
 
     <!-- COME FUNZIONA -->
-    <section id="come" class="section section--alt">
+    <section id="come" class="section">
       <div class="wrap">
-        <p class="eyebrow">Come funziona</p>
-        <h2>Dal sensore alla centrale in quattro passi</h2>
-        <ol class="flow">
+        <div class="head">
+          <p class="kicker kicker--dark">Come funziona</p>
+          <h2>Dall'installazione al dato, senza complicazioni</h2>
+        </div>
+        <ol class="steps">
           <li>
-            <span class="flow__n">1</span>
-            <h3>La unit misura</h3>
-            <p>Una scheda ESP32-S3 legge fino a 5 sensori e invia una lettura a intervalli regolari, più un segnale "sono viva" con lo stato della scheda.</p>
+            <span class="steps__n">01</span>
+            <h3>Installiamo la stazione</h3>
+            <p>La fissiamo su palo, parete o tetto. La connessione si imposta sul posto da smartphone, in pochi minuti.</p>
           </li>
           <li>
-            <span class="flow__n">2</span>
-            <h3>I dati viaggiano</h3>
-            <p>Via Wi-Fi (connettività cellulare in sperimentazione) con il protocollo MQTT, leggero e affidabile anche con reti instabili.</p>
+            <span class="steps__n">02</span>
+            <h3>Misura in continuo</h3>
+            <p>La stazione rileva i valori a intervalli regolari e segnala da sola eventuali guasti o interruzioni.</p>
           </li>
           <li>
-            <span class="flow__n">3</span>
-            <h3>Vengono salvati</h3>
-            <p>Un gateway archivia ogni misura in un database: lo storico si conserva nel tempo, pronto per analisi e report.</p>
-          </li>
-          <li>
-            <span class="flow__n">4</span>
-            <h3>Si controlla tutto</h3>
-            <p>Dalla console centrale si vedono le unit sulla mappa, i grafici delle ultime 24 ore, gli allarmi, e si inviano comandi e configurazioni.</p>
+            <span class="steps__n">03</span>
+            <h3>I dati arrivano in piattaforma</h3>
+            <p>Ogni misura viene archiviata e resta consultabile: mappe, andamenti, allarmi e storico nel tempo.</p>
           </li>
         </ol>
-
-        <div class="split">
-          <div>
-            <h3>Installazione semplice</h3>
-            <ul class="ticks">
-              <li>Un solo firmware per tutte le unit: si installa in laboratorio, uguale per tutte.</li>
-              <li>Al primo avvio la unit apre una sua rete <em>EWOKConfig</em>: dal telefono si inseriscono Wi-Fi e server, senza PC.</li>
-              <li>La unit si annuncia alla centrale, che le assegna nome, sensori e pin in un clic.</li>
-              <li>Ogni configurazione viene controllata prima dell'invio: niente errori di cablaggio.</li>
-            </ul>
-          </div>
-          <div>
-            <h3>Affidabilità</h3>
-            <ul class="ticks">
-              <li>Ogni unit è riconosciuta da un identificativo hardware univoco.</li>
-              <li>Se una unit perde rete o corrente, la centrale lo sa subito e lo segnala.</li>
-              <li>Comandi e conferme arrivano anche dopo una disconnessione temporanea.</li>
-              <li>Diagnostica remota: segnale Wi-Fi, memoria, riavvii, sensori in errore.</li>
-            </ul>
-          </div>
+        <div class="pros">
+          <div><h3>Autonoma</h3><p>Pannello solare e batteria: nessun cavo, ideale per montagna, campagna e aree isolate.</p></div>
+          <div><h3>Gestita da remoto</h3><p>Sensori e frequenza di misura si cambiano dalla piattaforma, senza tornare sul posto.</p></div>
+          <div><h3>Affidabile</h3><p>Ogni stazione invia un segnale di stato: se qualcosa si interrompe lo sappiamo subito.</p></div>
+          <div><h3>Dati di proprietà</h3><p>Hardware e software sono nostri: i dati restano tuoi e si esportano quando vuoi.</p></div>
         </div>
       </div>
     </section>
 
-    <!-- MAPPA -->
-    <section id="mappa" class="section">
+    <!-- LA RETE -->
+    <section id="rete" class="section section--dark">
       <div class="wrap">
-        <p class="eyebrow">La rete oggi</p>
-        <h2>Mappa delle unit</h2>
-        <p class="muted">Tocca un punto per vedere i dettagli della unit.</p>
-        <div class="map-wrap">
-          <div id="map" role="region" aria-label="Mappa delle unit Ewok">
-            <p class="map-placeholder">Caricamento mappa…</p>
+        <div class="head">
+          <p class="kicker">La rete</p>
+          <h2>Dove siamo presenti</h2>
+          <p class="head__lead">Per tutelare i siti indichiamo solo l'area in cui operano le stazioni, non la loro posizione esatta.</p>
+        </div>
+        <div class="network">
+          <div id="map" role="region" aria-label="Mappa delle aree servite">
+            <p class="map-msg">Caricamento mappa…</p>
           </div>
-          <aside class="legend" aria-label="Legenda">
-            <span><i class="dot dot--active"></i>Attiva</span>
-            <span><i class="dot dot--testing"></i>In test</span>
-            <span><i class="dot dot--planned"></i>In arrivo</span>
-            <span><i class="dot dot--offline"></i>Non raggiungibile</span>
+          <aside class="network__side">
+            <div class="stats">
+              <div><strong data-stat="areas">–</strong><span>aree</span></div>
+              <div><strong data-stat="units">–</strong><span>stazioni</span></div>
+            </div>
+            <ul id="area-list" class="areas" aria-label="Elenco delle aree"></ul>
+            <ul class="legend" aria-label="Legenda">
+              <li><i class="dot dot--active"></i>Operativa</li>
+              <li><i class="dot dot--testing"></i>In prova</li>
+              <li><i class="dot dot--planned"></i>In arrivo</li>
+            </ul>
           </aside>
         </div>
-        <ul id="unit-list" class="unit-list" aria-label="Elenco unit"></ul>
       </div>
     </section>
 
-    <!-- STATO DEL PROGETTO -->
-    <section id="progetto" class="section section--alt">
+    <!-- ROADMAP -->
+    <section class="section">
       <div class="wrap">
-        <p class="eyebrow">Cosa stiamo realizzando</p>
-        <h2>Stato del progetto</h2>
-        <ol class="timeline">
-          <li class="done">
-            <h3>Console di controllo centrale</h3>
-            <p>Gestione delle unit, mappa, grafici delle ultime 24 ore, comandi, eventi e utenti. Più operatori possono lavorare insieme.</p>
-          </li>
-          <li class="done">
-            <h3>Firmware unico configurabile da remoto</h3>
-            <p>Una sola versione per tutte le schede: la configurazione completa arriva dalla centrale. Driver pronti per BME280, BMP280, BMP180, BME680, DHT22 e SEN65.</p>
-          </li>
-          <li class="done">
-            <h3>Pannello di stato da tavolo</h3>
-            <p>Un piccolo display mostra a colpo d'occhio quali unit sono attive e l'ultima temperatura rilevata.</p>
-          </li>
-          <li class="now">
-            <h3>Configurazione Wi-Fi dal telefono</h3>
-            <p>Implementata, in prova sulle schede reali.</p>
-          </li>
-          <li class="now">
-            <h3>Nuovi sensori</h3>
-            <p>Estensione dei driver a CO₂, ozono, luce, UV e altri modelli di particolato.</p>
-          </li>
-          <li class="next">
-            <h3>Unit solare dedicata</h3>
-            <p>Scheda elettronica progettata da zero per l'esterno: pannello solare, batteria al litio, sensore SEN65 sempre attivo e microcontrollore in sospensione tra una misura e l'altra.</p>
-          </li>
-          <li class="next">
-            <h3>Connettività cellulare</h3>
-            <p>Modulo GSM per installare le unit anche dove non c'è Wi-Fi.</p>
-          </li>
-        </ol>
+        <div class="head">
+          <p class="kicker kicker--dark">A cosa stiamo lavorando</p>
+          <h2>Il progetto oggi</h2>
+        </div>
+        <ul class="roadmap">
+          <li class="is-done"><span class="pill pill--on">Pronto</span><h3>Piattaforma di controllo</h3><p>Mappa delle stazioni, andamenti delle ultime 24 ore, allarmi e gestione remota.</p></li>
+          <li class="is-done"><span class="pill pill--on">Pronto</span><h3>Stazioni configurabili</h3><p>Una sola base hardware che si adatta ai sensori scelti per ogni sito.</p></li>
+          <li class="is-now"><span class="pill pill--now">In corso</span><h3>Installazione da smartphone</h3><p>Messa in servizio sul posto senza computer.</p></li>
+          <li class="is-now"><span class="pill pill--now">In corso</span><h3>Nuovi sensori</h3><p>CO₂, ozono, luce e UV si aggiungono al catalogo.</p></li>
+          <li><span class="pill">Prossimo</span><h3>Stazione solare dedicata</h3><p>Elettronica progettata per l'esterno, a bassissimo consumo.</p></li>
+          <li><span class="pill">Prossimo</span><h3>Rete cellulare</h3><p>Stazioni operative anche dove non c'è Wi-Fi.</p></li>
+        </ul>
       </div>
     </section>
 
-    <!-- CHI SIAMO -->
-    <section id="chi" class="section">
-      <div class="wrap">
-        <p class="eyebrow">Chi siamo</p>
-        <h2>Il team</h2>
-        <div class="team">
+    <!-- TEAM -->
+    <section id="team" class="section section--tint">
+      <div class="wrap team">
+        <div class="head">
+          <p class="kicker kicker--dark">Chi siamo</p>
+          <h2>Un piccolo team che costruisce tutto in casa</h2>
+          <p class="head__lead">Dal sensore alla piattaforma, progettiamo noi ogni parte. Crediamo in dati ambientali locali, continui e accessibili.</p>
+        </div>
+        <div class="people">
           <article class="person">
-            <div class="avatar" aria-hidden="true">ME</div>
-            <div>
-              <h3>Manuel Enzo</h3>
-              <p class="role"><!-- TODO: ruolo -->Software, firmware e piattaforma</p>
-              <p><!-- TODO: breve bio -->Sviluppa la console di controllo, il firmware delle unit e l'infrastruttura dati.</p>
-            </div>
+            <span class="person__mono" aria-hidden="true">ME</span>
+            <h3>Manuel Enzo</h3>
+            <p class="person__role"><!-- TODO: ruolo -->Software e piattaforma</p>
+            <p><!-- TODO: bio -->Sviluppa la piattaforma di controllo e il software delle stazioni.</p>
           </article>
           <article class="person">
-            <div class="avatar" aria-hidden="true">EW</div>
-            <div>
-              <h3>EwNeedle</h3>
-              <p class="role"><!-- TODO: ruolo -->Ruolo da indicare</p>
-              <p><!-- TODO: breve bio -->Breve descrizione da completare.</p>
-            </div>
+            <span class="person__mono" aria-hidden="true">EW</span>
+            <h3>EwNeedle</h3>
+            <p class="person__role"><!-- TODO: ruolo -->Ruolo da indicare</p>
+            <p><!-- TODO: bio -->Breve descrizione da completare.</p>
           </article>
         </div>
-        <p class="mission">
-          Crediamo che i dati ambientali debbano essere <strong>locali, continui e accessibili</strong>:
-          per questo costruiamo hardware e software interamente nostri, dal sensore alla centrale.
-        </p>
       </div>
     </section>
 
     <!-- CONTATTI -->
-    <section id="contatti" class="section section--cta">
-      <div class="wrap cta">
+    <section id="contatti" class="contact">
+      <div class="wrap contact__inner">
         <div>
-          <h2>Vuoi una unit Ewok nel tuo territorio?</h2>
-          <p>Raccontaci cosa vuoi misurare e dove: ti proponiamo la configurazione più adatta.</p>
+          <h2>Vuoi misurare l'aria nel tuo territorio?</h2>
+          <p>Raccontaci cosa vuoi misurare e dove. Ti proponiamo la stazione e i sensori più adatti.</p>
         </div>
-        <!-- TODO: sostituire con l'indirizzo email reale -->
-        <a class="btn btn--light" href="mailto:info@example.com?subject=Informazioni%20Ewok">Scrivici</a>
+        <div class="contact__mail">
+          <!-- TODO: indirizzo email reale -->
+          <a class="btn btn--light" href="mailto:info@example.com?subject=Informazioni%20Ewok">Scrivici</a>
+          <span class="mono">info@example.com</span>
+        </div>
       </div>
     </section>
   </main>
@@ -252,7 +262,7 @@
   <footer class="footer">
     <div class="wrap footer__inner">
       <span>© <span id="year">2026</span> Ewok</span>
-      <span class="muted">Mappa © OpenStreetMap contributors</span>
+      <span>Monitoraggio ambientale · Italia</span>
     </div>
   </footer>
 
