@@ -15,7 +15,7 @@ La mappa non permette di zoomare oltre il livello di dettaglio di un'area.
 
 ## Da completare
 
-Cercare `TODO` in `index.html`: ruolo e bio del team, email di contatto. Verificare le aree in `data/areas.json`.
+Cercare `TODO` in `index.html`: email di contatto. Verificare le aree in `data/areas.json`.
 
 ## Provare in locale e pubblicare
 

@@ -8,7 +8,7 @@ const LEAFLET_BASE = 'assets/vendor/leaflet/';
 const STATUS = {
   active:  { label: 'Operativa', color: '#b4c98e' },
   testing: { label: 'In prova',  color: '#d9a441' },
-  planned: { label: 'In arrivo', color: '#b9a8ff' },
+  planned: { label: 'In arrivo', color: '#7d905e' },
 };
 
 document.getElementById('year').textContent = new Date().getFullYear();
