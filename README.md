@@ -1,0 +1,24 @@
+# Ewok · sito di presentazione
+
+Pagina statica (HTML, CSS e JS, senza build) che presenta Ewok ai possibili clienti, con la mappa delle aree servite.
+
+- `index.html`: contenuti della pagina
+- `assets/styles.css`, `assets/app.js`: stile e logica (la mappa Leaflet si carica solo quando si arriva alla sezione)
+- `assets/vendor/leaflet/`: Leaflet 1.9.4 incluso nel sito
+- `data/areas.json`: **le aree mostrate sulla mappa** (mai la posizione precisa delle stazioni)
+
+## Aggiornare la mappa
+
+Modificare `data/areas.json`. Campi: `name` (es. provincia o vallata), `region`, `lat`/`lng` (centro indicativo
+dell'area, 1-2 decimali), `radiusKm`, `units` (numero di stazioni), `status` (`active`, `testing`, `planned`), `note`.
+`unassignedUnits` conta nel totale le stazioni installate che non hanno un'area da mostrare.
+La mappa non permette di zoomare oltre il livello di dettaglio di un'area.
+
+## Provare in locale e pubblicare
+
+```bash
+python3 -m http.server 8080   # poi aprire http://localhost:8080
+```
+
+Il sito è pubblicato con **GitHub Pages** dal branch `main` (cartella principale, nessun comando di build).
+In alternativa su Netlify basta collegare la repo: `netlify.toml` pubblica la cartella principale.
