@@ -1,15 +1,35 @@
 {
-  "_nota": "Aree geografiche mostrate sulla mappa: niente posizioni precise delle unit. lat/lng = centro indicativo dell'area (bastano 1-2 decimali), radiusKm = raggio del cerchio. status: active | testing | planned.",
+  "_nota": "Aree geografiche mostrate sulla mappa: niente posizioni precise delle stazioni. lat/lng = centro indicativo dell'area (1-2 decimali), radiusKm = raggio del cerchio. status: active | testing | planned. unassignedUnits = stazioni installate ma senza area da mostrare: contano nel totale, non compaiono sulla mappa.",
+  "unassignedUnits": 2,
   "areas": [
     {
-      "name": "Provincia di Belluno",
-      "region": "Veneto",
-      "lat": 46.3,
-      "lng": 12.1,
-      "radiusKm": 18,
+      "name": "Mestre",
+      "region": "Venezia",
+      "lat": 45.49,
+      "lng": 12.24,
+      "radiusKm": 6,
+      "units": 2,
+      "status": "active",
+      "note": "Misure in esterno e in interno"
+    },
+    {
+      "name": "Jesolo",
+      "region": "Venezia",
+      "lat": 45.51,
+      "lng": 12.64,
+      "radiusKm": 6,
+      "units": 2,
+      "status": "active"
+    },
+    {
+      "name": "Santa Lucia di Piave",
+      "region": "Treviso",
+      "lat": 45.86,
+      "lng": 12.29,
+      "radiusKm": 5,
       "units": 1,
-      "status": "testing",
-      "note": "Unità solare in prova in ambiente montano"
+      "status": "active",
+      "note": "Misure in esterno"
     }
   ]
 }

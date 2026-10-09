@@ -65,10 +65,11 @@ document.querySelectorAll('.filter .chip').forEach(btn => {
 });
 
 /* ---------- Aree e mappa ---------- */
-const areasPromise = fetch(AREAS_URL, { cache: 'no-cache' })
-  .then(r => (r.ok ? r.json() : { areas: [] }))
-  .then(d => (Array.isArray(d.areas) ? d.areas : []).filter(a => Number.isFinite(a.lat) && Number.isFinite(a.lng)))
-  .catch(() => []);
+const dataPromise = fetch(AREAS_URL, { cache: 'no-cache' })
+  .then(r => (r.ok ? r.json() : {}))
+  .catch(() => ({}));
+const areasPromise = dataPromise
+  .then(d => (Array.isArray(d.areas) ? d.areas : []).filter(a => Number.isFinite(a.lat) && Number.isFinite(a.lng)));
 
 function esc (s) {
   return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -76,10 +77,10 @@ function esc (s) {
 const statusOf = a => (STATUS[a.status] ? a.status : 'planned');
 const unitsLabel = n => `${n} ${n === 1 ? 'stazione' : 'stazioni'}`;
 
-areasPromise.then(areas => {
+Promise.all([dataPromise, areasPromise]).then(([d, areas]) => {
   const set = (k, v) => { const el = document.querySelector(`[data-stat="${k}"]`); if (el) el.textContent = v; };
   set('areas', areas.length);
-  set('units', areas.reduce((s, a) => s + (Number(a.units) || 0), 0));
+  set('units', areas.reduce((s, a) => s + (Number(a.units) || 0), 0) + (Number(d.unassignedUnits) || 0));
 });
 
 function loadLeaflet () {
@@ -150,7 +151,7 @@ async function initMap () {
   });
 
   if (shapes.length) {
-    map.fitBounds(L.featureGroup(shapes).getBounds().pad(1.2), { maxZoom: 8 });
+    map.fitBounds(L.featureGroup(shapes).getBounds().pad(0.5), { maxZoom: 9 });
   } else {
     list.innerHTML = '<li class="legend">Le prime aree saranno visibili a breve.</li>';
   }
