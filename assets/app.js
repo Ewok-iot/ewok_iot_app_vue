@@ -53,17 +53,6 @@ drawContours();
 let resizeT;
 window.addEventListener('resize', () => { clearTimeout(resizeT); resizeT = setTimeout(drawContours, 150); });
 
-/* ---------- Filtro dei sensori ---------- */
-document.querySelectorAll('.filter .chip').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter .chip').forEach(b => b.classList.toggle('is-on', b === btn));
-    const f = btn.dataset.filter;
-    document.querySelectorAll('.sensors tbody tr').forEach(tr => {
-      tr.hidden = f !== 'all' && !tr.dataset.cat.split(' ').includes(f);
-    });
-  });
-});
-
 /* ---------- Aree e mappa ---------- */
 const dataPromise = fetch(AREAS_URL, { cache: 'no-cache' })
   .then(r => (r.ok ? r.json() : {}))
@@ -99,11 +88,19 @@ function loadLeaflet () {
 }
 
 function addBaseLayer (L, map) {
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    maxZoom: 12,
-    subdomains: 'abcd',
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
-  }).addTo(map);
+  // Satellite: Sentinel-2 cloudless 2016 di EOX (CC BY 4.0, utilizzabile anche commercialmente)
+  const satellite = L.tileLayer('https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg', {
+    maxZoom: 11,
+    className: 'tiles-sat',
+    attribution: '<a href="https://s2maps.eu">Sentinel-2 cloudless</a> by EOX IT Services GmbH (Copernicus Sentinel data 2016)',
+  });
+  const street = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 11,
+    className: 'tiles-map',
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  });
+  satellite.addTo(map);
+  L.control.layers({ Satellite: satellite, Mappa: street }, null, { position: 'topright', collapsed: false }).addTo(map);
 }
 
 async function initMap () {
@@ -119,7 +116,7 @@ async function initMap () {
   mapEl.innerHTML = '';
 
   // Zoom massimo limitato: la mappa mostra aree, non punti precisi
-  const map = L.map(mapEl, { scrollWheelZoom: false, maxZoom: 10, minZoom: 5 }).setView([45.9, 12.2], 7);
+  const map = L.map(mapEl, { scrollWheelZoom: false, maxZoom: 11, minZoom: 6, zoomSnap: 0.25 }).setView([45.7, 12.35], 9);
   addBaseLayer(L, map);
   map.on('click', () => map.scrollWheelZoom.enable());
   map.on('mouseout', () => map.scrollWheelZoom.disable());
@@ -131,27 +128,33 @@ async function initMap () {
     const st = statusOf(a);
     const color = STATUS[st].color;
     const units = Number(a.units) || 0;
-    const circle = L.circle([a.lat, a.lng], {
-      radius: (Number(a.radiusKm) || 15) * 1000,
-      color, weight: 1.5, fillColor: color, fillOpacity: 0.18,
-    }).addTo(map).bindPopup(
-      `<strong>${esc(a.name)}</strong><span>${esc(a.region || '')}${a.region ? ' · ' : ''}${unitsLabel(units)} · ${STATUS[st].label}</span>` +
-      (a.note ? `<br><span>${esc(a.note)}</span>` : ''),
-    );
-    shapes.push(circle);
+    const radius = (Number(a.radiusKm) || 6) * 1000;
+    const popup = `<strong>${esc(a.name)}</strong><span>${esc(a.region || '')}${a.region ? ' · ' : ''}${unitsLabel(units)} · ${STATUS[st].label}</span>` +
+      (a.note ? `<br><span>${esc(a.note)}</span>` : '');
+
+    // alone esterno + area + centro pulsante con etichetta fissa
+    L.circle([a.lat, a.lng], { radius: radius * 1.6, stroke: false, fillColor: color, fillOpacity: 0.12, interactive: false }).addTo(map);
+    const area = L.circle([a.lat, a.lng], { radius, color, weight: 1.5, dashArray: '4 4', fillColor: color, fillOpacity: 0.22 })
+      .addTo(map).bindPopup(popup);
+    const pin = L.marker([a.lat, a.lng], {
+      icon: L.divIcon({ className: 'area-pin', html: `<span style="--c:${color}"></span>`, iconSize: [16, 16], iconAnchor: [8, 8] }),
+      keyboard: false,
+    }).addTo(map).bindPopup(popup);
+    pin.bindTooltip(`${esc(a.name)} <b>${units}</b>`, { permanent: true, direction: a.label === 'left' ? 'left' : 'right', offset: [a.label === 'left' ? -12 : 12, 0], className: 'area-label' });
+    shapes.push(area);
 
     const li = document.createElement('li');
     li.innerHTML = `<button type="button"><strong><i class="dot" style="background:${color}"></i>${esc(a.name)}</strong>
       <small>${esc(a.region || '')}${a.region ? ' · ' : ''}${unitsLabel(units)} · ${STATUS[st].label}</small></button>`;
     li.querySelector('button').addEventListener('click', () => {
-      map.flyToBounds(circle.getBounds().pad(1.5), { duration: 0.8 });
-      circle.openPopup();
+      map.flyToBounds(area.getBounds().pad(1.5), { duration: 0.8 });
+      area.openPopup();
     });
     list.appendChild(li);
   });
 
   if (shapes.length) {
-    map.fitBounds(L.featureGroup(shapes).getBounds().pad(0.5), { maxZoom: 9 });
+    map.fitBounds(L.featureGroup(shapes).getBounds().pad(0.35), { maxZoom: 10 });
   } else {
     list.innerHTML = '<li class="legend">Le prime aree saranno visibili a breve.</li>';
   }

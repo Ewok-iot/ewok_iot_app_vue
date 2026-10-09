@@ -1,5 +1,5 @@
 {
-  "_nota": "Aree geografiche mostrate sulla mappa: niente posizioni precise delle stazioni. lat/lng = centro indicativo dell'area (1-2 decimali), radiusKm = raggio del cerchio. status: active | testing | planned. unassignedUnits = stazioni installate ma senza area da mostrare: contano nel totale, non compaiono sulla mappa.",
+  "_nota": "Aree geografiche mostrate sulla mappa: niente posizioni precise delle stazioni. lat/lng = centro indicativo dell'area (1-2 decimali), radiusKm = raggio del cerchio. status: active | testing | planned. unassignedUnits = stazioni installate ma senza area da mostrare: contano nel totale, non compaiono sulla mappa. label: left | right (lato dell'etichetta, default right).",
   "unassignedUnits": 2,
   "areas": [
     {
@@ -9,7 +9,8 @@
       "lng": 12.24,
       "radiusKm": 6,
       "units": 1,
-      "status": "active"
+      "status": "active",
+      "label": "left"
     },
     {
       "name": "Jesolo",

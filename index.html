@@ -54,8 +54,8 @@
         </div>
         <dl class="hero__specs">
           <div><dt>Particolato</dt><dd>PM1 · PM2.5 · PM4 · PM10</dd></div>
-          <div><dt>Gas</dt><dd>VOC · NOx · CO₂ · O₃</dd></div>
-          <div><dt>Microclima</dt><dd>°C · %UR · hPa · lux · UV</dd></div>
+          <div><dt>Gas</dt><dd>VOC · NOx</dd></div>
+          <div><dt>Microclima</dt><dd>°C · %UR · hPa</dd></div>
           <div><dt>Alimentazione</dt><dd>Solare o rete</dd></div>
         </dl>
       </div>
@@ -66,8 +66,8 @@
       <div class="wrap">
         <div class="head">
           <p class="kicker kicker--dark">Cosa misuriamo</p>
-          <h2>Sedici grandezze, una sola stazione</h2>
-          <p class="head__lead">Ogni stazione monta fino a cinque sensori, scelti in base a cosa serve misurare in quel luogo.</p>
+          <h2>Particolato, gas e microclima in un'unica stazione</h2>
+          <p class="head__lead">Ogni stazione rileva in continuo i parametri chiave della qualità dell'aria e del microclima.</p>
         </div>
         <div class="measures">
           <article class="measure">
@@ -79,8 +79,8 @@
           <article class="measure">
             <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 15c2-3 4-3 6 0s4 3 6 0 4-3 4-3M4 9c2-3 4-3 6 0s4 3 6 0 4-3 4-3"/></svg>
             <h3>Gas e composti</h3>
-            <p>Composti organici volatili, ossidi di azoto, anidride carbonica e ozono.</p>
-            <ul class="tags"><li>VOC</li><li>NOx</li><li>CO₂</li><li>O₃</li><li>CO · NO₂ · NH₃</li><li class="u">indice · ppm</li></ul>
+            <p>Indici di composti organici volatili e ossidi di azoto, più la resistenza del sensore di gas.</p>
+            <ul class="tags"><li>VOC</li><li>NOx</li><li>Gas</li><li class="u">indice · Ω</li></ul>
           </article>
           <article class="measure">
             <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14V5a2 2 0 1 1 4 0v9a4 4 0 1 1-4 0Z"/><path d="M12 11v6"/></svg>
@@ -88,11 +88,11 @@
             <p>Temperatura, umidità relativa e pressione atmosferica per leggere ogni dato nel suo contesto.</p>
             <ul class="tags"><li>Temperatura</li><li>Umidità</li><li>Pressione</li><li class="u">°C · % · hPa</li></ul>
           </article>
-          <article class="measure">
-            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1"/></svg>
-            <h3>Luce e radiazione</h3>
-            <p>Illuminamento e indice UV, utili per esposizione, agricoltura e turismo.</p>
-            <ul class="tags"><li>Luminosità</li><li>Indice UV</li><li class="u">lux</li></ul>
+          <article class="measure measure--soon">
+            <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <h3>Nuove misure <span class="soon">Coming soon</span></h3>
+            <p>CO₂, ozono, luminosità e indice UV.</p>
+            <ul class="tags"><li>CO₂</li><li>O₃</li><li>lux</li><li>UV</li></ul>
           </article>
         </div>
       </div>
@@ -103,43 +103,27 @@
       <div class="wrap">
         <div class="head">
           <p class="kicker kicker--dark">Sensori</p>
-          <h2>Sensori professionali, configurazione su misura</h2>
-          <p class="head__lead">Selezioniamo componenti di produttori di riferimento come Sensirion e Bosch. La configurazione di ogni stazione è definita sul progetto.</p>
+          <h2>I sensori che utilizziamo</h2>
+          <p class="head__lead">Componenti di produttori di riferimento, installati sulle stazioni attualmente in servizio.</p>
         </div>
-        <div class="filter" role="group" aria-label="Filtra i sensori">
-          <button type="button" class="chip is-on" data-filter="all">Tutti</button>
-          <button type="button" class="chip" data-filter="pm">Particolato</button>
-          <button type="button" class="chip" data-filter="gas">Gas</button>
-          <button type="button" class="chip" data-filter="co2">CO₂</button>
-          <button type="button" class="chip" data-filter="clima">Microclima</button>
-          <button type="button" class="chip" data-filter="luce">Luce</button>
+        <div class="sensor-cards">
+          <article class="sensor">
+            <div class="sensor__top"><span class="sensor__name mono">SEN65</span><span class="sensor__maker">Sensirion</span></div>
+            <p>Modulo multiparametrico per la qualità dell'aria.</p>
+            <ul class="tags"><li>PM1</li><li>PM2.5</li><li>PM4</li><li>PM10</li><li>VOC</li><li>NOx</li><li>Temperatura</li><li>Umidità</li></ul>
+          </article>
+          <article class="sensor">
+            <div class="sensor__top"><span class="sensor__name mono">BME680</span><span class="sensor__maker">Bosch</span></div>
+            <p>Sensore ambientale per gas e condizioni atmosferiche.</p>
+            <ul class="tags"><li>Gas (VOC)</li><li>Temperatura</li><li>Umidità</li><li>Pressione</li></ul>
+          </article>
+          <article class="sensor">
+            <div class="sensor__top"><span class="sensor__name mono">DHT22</span><span class="sensor__maker">Aosong</span></div>
+            <p>Sensore dedicato a temperatura e umidità relativa.</p>
+            <ul class="tags"><li>Temperatura</li><li>Umidità</li></ul>
+          </article>
         </div>
-        <div class="table-wrap">
-          <table class="sensors">
-            <thead>
-              <tr><th scope="col">Sensore</th><th scope="col">Produttore</th><th scope="col">Cosa misura</th><th scope="col">Stato</th></tr>
-            </thead>
-            <tbody>
-              <tr data-cat="pm gas clima"><td class="mono">SEN65</td><td>Sensirion</td><td>PM1, PM2.5, PM4, PM10, VOC, NOx, temperatura, umidità</td><td><span class="pill pill--on">Disponibile</span></td></tr>
-              <tr data-cat="gas clima"><td class="mono">BME680</td><td>Bosch</td><td>Gas (VOC), temperatura, umidità, pressione</td><td><span class="pill pill--on">Disponibile</span></td></tr>
-              <tr data-cat="clima"><td class="mono">BME280</td><td>Bosch</td><td>Temperatura, umidità, pressione</td><td><span class="pill pill--on">Disponibile</span></td></tr>
-              <tr data-cat="clima"><td class="mono">BMP280</td><td>Bosch</td><td>Temperatura, pressione</td><td><span class="pill pill--on">Disponibile</span></td></tr>
-              <tr data-cat="clima"><td class="mono">BMP180</td><td>Bosch</td><td>Temperatura, pressione</td><td><span class="pill pill--on">Disponibile</span></td></tr>
-              <tr data-cat="clima"><td class="mono">DHT22</td><td>Aosong</td><td>Temperatura, umidità</td><td><span class="pill pill--on">Disponibile</span></td></tr>
-              <tr data-cat="clima"><td class="mono">SHT31</td><td>Sensirion</td><td>Temperatura, umidità ad alta precisione</td><td><span class="pill">Su richiesta</span></td></tr>
-              <tr data-cat="pm"><td class="mono">PMS5003 · PMS7003</td><td>Plantower</td><td>PM1, PM2.5, PM10 (laser)</td><td><span class="pill">Su richiesta</span></td></tr>
-              <tr data-cat="pm"><td class="mono">SDS011</td><td>Nova Fitness</td><td>PM2.5, PM10 (laser)</td><td><span class="pill">Su richiesta</span></td></tr>
-              <tr data-cat="co2 clima"><td class="mono">SCD41</td><td>Sensirion</td><td>CO₂ (fotoacustico), temperatura, umidità</td><td><span class="pill">Su richiesta</span></td></tr>
-              <tr data-cat="co2 clima"><td class="mono">SCD30</td><td>Sensirion</td><td>CO₂ (NDIR), temperatura, umidità</td><td><span class="pill">Su richiesta</span></td></tr>
-              <tr data-cat="co2"><td class="mono">MH-Z19B</td><td>Winsen</td><td>CO₂ (NDIR)</td><td><span class="pill">Su richiesta</span></td></tr>
-              <tr data-cat="gas co2"><td class="mono">SGP30</td><td>Sensirion</td><td>VOC, CO₂ equivalente</td><td><span class="pill">Su richiesta</span></td></tr>
-              <tr data-cat="gas"><td class="mono">MiCS-6814</td><td>SGX Sensortech</td><td>CO, NO₂, NH₃</td><td><span class="pill">Su richiesta</span></td></tr>
-              <tr data-cat="gas"><td class="mono">MQ131</td><td>Winsen</td><td>Ozono</td><td><span class="pill">Su richiesta</span></td></tr>
-              <tr data-cat="luce"><td class="mono">BH1750</td><td>Rohm</td><td>Luminosità (lux)</td><td><span class="pill">Su richiesta</span></td></tr>
-              <tr data-cat="luce"><td class="mono">UVM-30A</td><td>—</td><td>Indice UV</td><td><span class="pill">Su richiesta</span></td></tr>
-            </tbody>
-          </table>
-        </div>
+        <p class="note"><span class="soon">Coming soon</span> Configurazione su misura delle stazioni, con sensori scelti in base al sito e agli obiettivi di monitoraggio.</p>
       </div>
     </section>
 
@@ -154,7 +138,7 @@
           <li>
             <span class="steps__n">01</span>
             <h3>Installiamo la stazione</h3>
-            <p>Sopralluogo, scelta dei sensori e posa su palo, parete o copertura. La messa in servizio avviene sul posto, senza opere aggiuntive.</p>
+            <p>Sopralluogo e posa su palo, parete o copertura. La messa in servizio avviene sul posto, senza opere aggiuntive.</p>
           </li>
           <li>
             <span class="steps__n">02</span>
@@ -169,7 +153,7 @@
         </ol>
         <div class="pros">
           <div><h3>Autonoma</h3><p>Alimentazione solare con batteria: nessun allaccio elettrico, adatta a montagna, campagna e aree isolate.</p></div>
-          <div><h3>Gestita da remoto</h3><p>Configurazione, frequenza di misura e diagnostica gestite da remoto, senza interventi sul posto.</p></div>
+          <div><h3>Gestita da remoto</h3><p>Frequenza di misura e diagnostica gestite da remoto, senza interventi sul posto.</p></div>
           <div><h3>Affidabile</h3><p>Monitoraggio continuo dello stato di ogni stazione, con notifica immediata delle interruzioni.</p></div>
           <div><h3>Dati del cliente</h3><p>I dati restano di proprietà del cliente e sono esportabili in qualsiasi momento.</p></div>
         </div>
@@ -213,11 +197,11 @@
           <p class="head__lead">Seguiamo ogni progetto dalla definizione dei requisiti alla gestione nel tempo.</p>
         </div>
         <ul class="services">
-          <li><span class="services__n">01</span><h3>Progettazione della rete</h3><p>Analisi delle esigenze, scelta dei punti di misura e dei sensori più adatti al contesto.</p></li>
+          <li><span class="services__n">01</span><h3>Progettazione della rete</h3><p>Analisi delle esigenze e scelta dei punti di misura più rappresentativi.</p></li>
           <li><span class="services__n">02</span><h3>Fornitura e installazione</h3><p>Stazioni assemblate e collaudate, posa in opera e messa in servizio sul campo.</p></li>
           <li><span class="services__n">03</span><h3>Piattaforma dati</h3><p>Consultazione in tempo reale, storico, soglie di allarme ed esportazione dei dati.</p></li>
           <li><span class="services__n">04</span><h3>Assistenza e manutenzione</h3><p>Monitoraggio dello stato delle stazioni, interventi programmati e aggiornamenti da remoto.</p></li>
-          <li><span class="services__n">05</span><h3>Soluzioni su misura</h3><p>Sviluppo di dispositivi IoT e software dedicati per esigenze specifiche.</p></li>
+          <li><span class="services__n">05</span><h3>Soluzioni su misura <span class="soon">Coming soon</span></h3><p>Stazioni configurate su richiesta e software dedicati per esigenze specifiche.</p></li>
           <li><span class="services__n">06</span><h3>Ricerca e sviluppo</h3><p>In sviluppo una stazione solare a bassissimo consumo e la connettività su rete cellulare.</p></li>
         </ul>
       </div>
